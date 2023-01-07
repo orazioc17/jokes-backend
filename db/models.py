@@ -1,5 +1,5 @@
 from sqlalchemy import Column
-from sqlalchemy.sql.sqltypes import Integer, String, Boolean
+from sqlalchemy.sql.sqltypes import Integer, String, DateTime
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.orm import relationship
 
@@ -14,7 +14,7 @@ class DbUser(Base):
     username = Column(String)
     email = Column(String)
     password = Column(String)
-    items = relationship("DbJoke", back_populates="user")  # This back populates with the field "user" from DbArticle
+    jokes = relationship("DbJoke", back_populates="user")  # This back populates with the field "user" from DbArticle
 
 
 class DbJoke(Base):
@@ -22,8 +22,8 @@ class DbJoke(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     text = Column(String)
-    published = Column(Boolean)
     up_votes = Column(Integer)
     down_votes = Column(Integer)
+    created_at = Column(DateTime)
     user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship("DbUser", back_populates="items")  # This back populates with the field "items" from DbUser
+    user = relationship("DbUser", back_populates="jokes")  # This back populates with the field "items" from DbUser
